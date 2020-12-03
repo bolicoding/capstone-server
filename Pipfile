@@ -12,6 +12,8 @@ flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
 flask-cors = "*"
 flask-heroku = "*"
+flask-mail = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.8"
