@@ -3,13 +3,17 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_mail import Mail, Message
+from flask_heroku import Heroku
 # import sys
 import os
 
 # sys.setrecursionlimit(10**6) 
 
 app = Flask(__name__)
+heroku = Heroku(app)
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL')
 CORS(app)
+
 app.config.update(
 	# DEBUG=True,
 	#EMAIL SETTINGS
