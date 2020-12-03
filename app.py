@@ -11,7 +11,7 @@ import os
 app = Flask(__name__)
 CORS(app)
 app.config.update(
-	DEBUG=True,
+	# DEBUG=True,
 	#EMAIL SETTINGS
 	MAIL_SERVER='smtp.gmail.com',
 	MAIL_PORT=465,
@@ -32,17 +32,13 @@ ma = Marshmallow(app)
 class Email(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(500), unique=False)
-    name = db.Column(db.String(500), unique=False)
-    message = db.Column(db.String(500), unique=False)
-    def __init__(self, email, name, message):
+    def __init__(self, email):
         self.email = email
-        self.name = name
-        self.message = message
         
         
 class EmailSchema(ma.Schema):
     class Meta:
-        fields = ('email', 'name', 'message')
+        fields = ('id', 'email')
         
         
 email_schema = EmailSchema()
@@ -69,9 +65,8 @@ def get_quotes():
 def send_mail():
   try:
     msg = Message("Fast Garage Contact Page", recipients = [os.environ.get("USERNAME")])
-    msg.body = request.json['message']
     msg.html = render_template("contact.html", message = request.json['message'], email = request.json['email'], name = request.json['name'])
-    msg.send(msg)
+    mail.send(msg)
     return jsonify('Mail Sent!!')
   except Exception as e:
     return jsonify(str(e))
