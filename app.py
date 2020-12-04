@@ -66,7 +66,7 @@ def get_quotes():
 @app.route('/send', methods=['POST'])
 def send_mail():
   try:
-    msg = Message("Fast Garage Contact Page", sender = os.environ.get("USERNAME"), recipients = [os.environ.get("USERNAME")])
+    msg = Message("Fast Garage Contact Page", recipients = [os.environ.get("USERNAME")])
     msg.html = render_template("contact.html", message = request.json['message'], email = request.json['email'], name = request.json['name'])
     mail.send(msg)
     return jsonify('Mail Sent!!')
